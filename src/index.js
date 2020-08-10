@@ -39,17 +39,14 @@ const MyButton = React.memo(function MyButton(props) {
 function Counter() {
   console.count("Counter.render");
 
-  const countRef = useRef([0]);
-  let count = countRef.current;
   const [delta, setDelta] = useState(1);
-  const [nonce, setNonce] = useState(0);
+  const [count, setCount] = useState(0);
 
   const inc = useCallback(
     function inc() {
-      count[0] += delta;
-      setNonce((x) => x + 1);
+      setCount((x) => x + delta);
     },
-    [count, delta]
+    [delta]
   );
 
   return (
@@ -63,8 +60,8 @@ function Counter() {
           onChange={(e) => setDelta(Number(e.target.value))}
         />
       </label>
-      <DisplayValue val={count[0]} />
-      <DisplayMod5 val={count[0]} />
+      <DisplayValue val={count} />
+      <DisplayMod5 val={count} />
       <MyButton onClick={inc} />
     </>
   );
