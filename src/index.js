@@ -16,18 +16,20 @@ const DisplayValue = React.memo(function DisplayValue(props) {
   return <p>Value: {val}</p>;
 });
 
-const DisplayMod5 = React.memo(function DisplayMod5(props) {
-  console.count("DisplayMod5.render");
+const DisplayMod5 = React.memo(
+  function DisplayMod5(props) {
+    console.count("DisplayMod5.render");
 
-  const { val } = props;
-  const text = useMemo(
-    () =>
-      val % 5 === 0 ? "Value is divisible by 5" : "Value does not divide by 5",
-    [val]
-  );
+    const { val } = props;
+    const text =
+      val % 5 === 0 ? "Value is divisible by 5" : "Value does not divide by 5";
 
-  return <p>{text}</p>;
-});
+    return <p>{text}</p>;
+  },
+  function (prevProps, nextProps) {
+    return Boolean(prevProps.val % 5) === Boolean(nextProps.val % 5);
+  }
+);
 
 const MyButton = React.memo(function MyButton(props) {
   console.count("MyButton.render");
@@ -47,7 +49,7 @@ function Counter() {
       count[0] += delta;
       setNonce((x) => x + 1);
     },
-    [count]
+    [count, delta]
   );
 
   return (
